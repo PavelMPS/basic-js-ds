@@ -6,13 +6,17 @@ const { NotImplementedError } = require('../extensions/index.js');
 * Implement simple binary search tree according to task description
 * using Node from extensions
 */
-
+class Node{
+  constructor(data){
+  this.data=data;
+  this.left=null;
+  this.right=null;		
+}
+}
 module.exports = class BinarySearchTree {
   constructor(){
     this.rootNode=null;
   }
-
-
   root() {
     return this.rootNode;
   }
@@ -74,7 +78,7 @@ module.exports = class BinarySearchTree {
     }else return node;
   }
 
-  remove(data) {
+  remove(data){    
     this.rootNode = this.removeNode(this.rootNode, data);
   }
   removeNode(node, data){
@@ -86,21 +90,21 @@ module.exports = class BinarySearchTree {
     }else if(node.data<data){
       node.right=this.removeNode(node.right, data);
       return node;
-    }else if(node.left===null&&node.right===null){
+    }else if(node.left===null&&node.right===null){  //Если детенышей нет - обнуляем нод.
             node=null;
             return node;
           }
-          if(node.left===null){
+          if(node.left===null){ //Если нет левого детеныша - заменяем удаляемый нод на правый.
             node=node.right;
             return node;
           }
-          if(node.right===null){
+          if(node.right===null){//Если нет правого детеныша - заменяем удаляемый нод на левый.
             node=node.left;
             return node;
           }
-          let dataNode = this.minNode(node.right);
-          node.data=dataNode.data;
-          node.right=this.removeNode(node.right, dataNode.data);
+           //Если есть 2 детеныша - находим значение минимального в правом дереве и заменяем удаляемое
+          node.data=this.minNode(node.right).data;
+          node.right=this.removeNode(node.right, this.minNode(node.right).data);
           return node;
   }
 
@@ -133,12 +137,6 @@ module.exports = class BinarySearchTree {
 }
 
 
-class Node{
-    constructor(data){
-    this.data = data;
-    this.left = null;
-    this.right = null;		
-}
-}
+
 
  
