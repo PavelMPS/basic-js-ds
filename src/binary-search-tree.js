@@ -42,6 +42,9 @@ module.exports = class BinarySearchTree {
   has(data){
     if(this.rootNode===null){
       return false;
+
+    }if(this.rootNode.data===data){
+      return true;
     } else return this.hasNode(this.rootNode, data);   
   }
   hasNode(node, data){
@@ -79,20 +82,26 @@ module.exports = class BinarySearchTree {
       return false;
     }else if(node.data>data){
       node.left=this.removeNode(node.left, data);
+      return node;
     }else if(node.data<data){
       node.right=this.removeNode(node.right, data);
+      return node;
     }else if(node.left===null&&node.right===null){
             node=null;
+            return node;
           }
           if(node.left===null){
             node=node.right;
+            return node;
           }
           if(node.right===null){
             node=node.left;
+            return node;
           }
           let dataNode = this.minNode(node.right);
           node.data=dataNode.data;
           node.right=this.removeNode(node.right, dataNode.data);
+          return node;
   }
 
   min() {
@@ -125,7 +134,7 @@ module.exports = class BinarySearchTree {
 
 
 class Node{
-  constructor(data){
+    constructor(data){
     this.data = data;
     this.left = null;
     this.right = null;		
